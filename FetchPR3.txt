@@ -1,0 +1,71 @@
+<!DOCTYPE html> <!-- Declares the HTML5 document type -->
+<html>
+<head>
+  <style>
+    #dogs img {
+      border: 3px solid #555; /* Adds a thick border to images */
+      border-radius: 8px;     /* Rounded image corners */
+      margin: 5px;            /* Margin between gallery images */
+      max-width: 200px;       /* Maximum width for each image */
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.3); /* Subtle shadow under images */
+    }
+    body {
+      font-family: Arial, sans-serif;         /* Clean modern font for body */
+      text-align: center;                     /* Centers all text and contents */
+      background-color: #f9f9f9;              /* Light background color */
+      padding: 20px;                          /* Space around all content */
+    }
+
+    h1 {
+      color: #333;                            /* Heading color */
+    }
+
+  </style> <!-- End of CSS styles -->
+</head>
+<body>
+<h1>Random Dogs</h1> <!-- Main heading of the page -->
+<div id="dogs"></div> <!-- Empty div to insert dog images dynamically -->
+
+<script>
+  // Asynchronous function to fetch random dog images from API
+  async function fetchDogs() {
+    try {
+      console.log("Starting fetch from Dog CEO API..."); // Debug: start of fetch
+
+      // Fetch 5 random dog images from API endpoint
+      const r = await fetch('https://dog.ceo/api/breeds/image/random/5');
+      console.log("API Response Status:", r.status); // Debug: show response status
+
+      // Throw error if fetch failed (non-200 response)
+      if (!r.ok) throw new Error(`HTTP Error: ${r.status}`);
+
+      // Parse the JSON object from the API response
+      const data = await r.json();
+      console.log("Full API Data Object:", data); // Debug: show API response data
+
+      // Destructure to get the message field, which contains image URLs array
+      const { message } = data;
+      console.log("Image URLs:", message); // Debug: show image URLs
+
+      // Find the container div and clear previous images if any
+      const container = document.getElementById('dogs');
+      container.innerHTML = "";
+
+      // Iterate over the array of image URLs
+      for (let i = 0; i < message.length; i++) {
+        console.log(`Rendering image #${i + 1}: ${message[i]}`); // Debug: show image to be rendered
+        const img = document.createElement('img'); // Create a new img element
+        img.src = message[i];                      // Set image src to dog photo URL
+        container.appendChild(img);                // Add the image to container
+      }
+
+      console.log("All images rendered successfully."); // Debug: Successful completion
+    } catch (err) {
+      console.error("Error fetching or rendering dogs:", err); // Error debug message
+    }
+  }
+
+  fetchDogs(); // Run the fetchDogs function to display images on page load
+</script>
+</body>
+</html> <!-- End of HTML document -->

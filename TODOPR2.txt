@@ -1,0 +1,145 @@
+<!DOCTYPE html> <!-- Defines the document type as HTML5 -->
+<html lang="en"> <!-- HTML element with English language -->
+
+<head>
+  <meta charset="UTF-8" /> <!-- Set charset to UTF-8 for character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Makes site responsive to different devices -->
+  <title>Todo List</title> <!-- Title shown in browser tab -->
+  <style>
+    body {
+      font-family: Arial, sans-serif; /* Use Arial font for page text */
+      background-color: #f4f4f4; /* Light gray background */
+      padding: 100px; /* Padding around content */
+      border-radius: 5px; /* Rounded corners for body container */
+      max-width: 700px; /* Max width limit */
+      margin: auto; /* Center horizontally */
+      align-items: center; /* Align items center vertically */
+      text-align: center; /* Center-align text */
+    }
+
+    h2 {
+      color: #333; /* Dark gray heading color */
+    }
+
+    input {
+      padding: 10px; /* Padding inside input box */
+      width: 70%; /* Input box width */
+      border: 1px solid #ccc; /* Gray border */
+      border-radius: 4px; /* Rounded input corners */
+      font-size: 16px; /* Font size */
+    }
+
+    input:focus {
+      border-color: #777; /* Border color when input is focused */
+      outline: none; /* Remove default outline */
+    }
+
+    input::placeholder {
+      color: #aaa; /* Placeholder text color */
+    }
+
+    button {
+      background-color: tomato; /* Red background color for buttons */
+      color: white; /* White text */
+      padding: 10px 15px; /* Padding inside buttons */
+      border: none; /* No border */
+      border-radius: 4px; /* Rounded corners */
+      cursor: pointer; /* Cursor becomes pointer on hover */
+      margin-left: 10px; /* Margin to left of button */
+      font-size: 16px; /* Font size */
+    }
+
+    ul {
+      list-style-type: none; /* Remove default bullet points */
+      padding: 0; /* Remove default padding */
+      max-height: 300px; /* Maximum height for the list */
+      overflow-y: auto; /* Scroll vertically if overflow */
+      font-size: 18px; /* Font size for list items */
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Inner subtle shadow */
+      background-color: #fff; /* White background for list */
+      border-radius: 4px; /* Rounded corners */
+      margin-top: 20px; /* Space above the list */
+    }
+
+    li {
+      padding: 10px; /* Padding inside each list item */
+      border-bottom: 1px solid #ccc; /* Gray separator line */
+      cursor: pointer; /* Pointer cursor for list item */
+      display: flex; /* Use flex layout for children */
+      align-items: center; /* Vertically center children */
+      justify-content: center; /* Center horizontally */
+    }
+
+    li:hover {
+      background-color: #e9e9e9; /* Highlight background on hover */
+    }
+
+    li span {
+      flex-grow: 1; /* Take remaining space */
+      text-align: left; /* Align text to the left */
+      cursor: pointer; /* Pointer cursor */
+    }
+  </style> <!-- End of CSS styles -->
+</head>
+
+<body>
+  <h2>My Personalized Todo List</h2> <!-- Heading -->
+
+  <input id="taskInput" placeholder="Add a task" /> <!-- Input for new task -->
+  <button onclick="AddTask()">ADD TASK</button> <!-- Button calls AddTask function -->
+
+  <ul id="tasklist"></ul> <!-- Empty unordered list for tasks -->
+
+  <script>
+    // Function to add a new task when called
+    function AddTask() {
+      let input = document.getElementById('taskInput'); // Get input element
+      let text = input.value.trim(); // Get trimmed input value
+
+      if (!text) { // If input empty
+        return alert('Enter the task'); // Alert user and stop function
+      }
+
+      let li = document.createElement('li'); // Create new list item
+
+      // Task text span
+      let span = document.createElement('span'); // Create span to hold task text
+      span.textContent = text; // Set span text to input value
+
+      // Toggle strike-through on task text click
+      span.onclick = () => {
+        // If already line-through, remove it; else apply it
+        span.style.textDecoration =
+          span.style.textDecoration === 'line-through' ? '' : 'line-through';
+      };
+
+      // Edit button
+      let editBtn = document.createElement('button'); // Create edit button
+      editBtn.textContent = 'Edit'; // Button label
+      editBtn.onclick = () => {
+        let newText = prompt('Edit Text:', span.textContent); // Prompt for new text
+        if (newText) {
+          span.textContent = newText.trim(); // Update span text
+          span.style.textDecoration = ''; // Remove strike-through after edit
+        }
+      };
+
+      // Delete button
+      let deleteBtn = document.createElement('button'); // Create delete button
+      deleteBtn.textContent = 'Delete'; // Button label
+      deleteBtn.onclick = () => {
+        if (confirm('Delete Task?')) li.remove(); // Confirm and remove task
+      };
+
+      li.appendChild(span); // Add text span to the list item
+      li.appendChild(editBtn); // Add edit button to the list item
+      li.appendChild(deleteBtn); // Add delete button to the list item
+
+      document.getElementById('tasklist').appendChild(li); // Add new task to the list
+
+      input.value = ''; // Clear input box after adding
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+Inbuilt Objects in js
+
+1.Math :- 
+	abs,ceil,floor,round,max,min...
+	Math.abs(-10);
+	
+2.Date Object :-
+	month,year,day
+	
+3.String :-
+	s.lenght() //Returns the Lenght of the string
+	
+4.Array :-
+	var,let,const
+	
+	let a = [10,20,30];
+	typeof(a) 	//	Object
+	
+	let b = Array.of(10,20,30);
+	let c = "sres";
+	let d = Array.from(c); 	// Sepreates it  by character by character ['S','R','E','S']
+	
+	1.shift :-
+			Remove the First Element from the Array
+	
+	2.push :-
+			Add the Element at the last
+			
+	3.pop :-
+			Remove the Element from last
+			
+	4.unshift :-
+			Adds the Element at first index
+			
+	5.filter :-
+			a.filter((x)=>{if(x>=40) return x});		// Returns the marks Greater than Equal to 40 and stores in a array
+	
+	6.map :-
+			Copies the Element in the array one by one
+			
+				
+		let a=[10,20,30];
+		find the square of each element
+		a.map((x)=>{});		//Each element in this array will be copied in var x one by one
+		a.map((x)=>x*x);	// REturns the array of square number in array a
+
+	7.Object :-
+			Stores key value pairs
+			We can also modify the object later on
+			
+			let obj = {};
+			let obj={id:1,name:"abc",marks:97};
+			
+			<scipt>
+				function myfun()
+				{
+					let obj={id:1,name:"abc",marks:97};
+					for(let k in obj)
+					{
+						console.log(k);			//	Returns only keys
+						console.log(obj[k]);	// Returns key and Values
+					}
+					myfun();
+				}
+				
+				set of records
+				array of objects
+				
+				let objarr=[{id:2,name:"abc",marks:90},{id:3,name:"xyz",marks:99}];
+				for(let i=0;i<=objarr.lenght;i++)
+				{
+					console.log("position: "+i);
+					let temp = objarr[i];
+					console.log(temp);
+				
+				}
+			
+			
+			
+		student_id   	     student_name  		   student_marks
+		    1			abc				97
+		    2			xyz				77
+			
+			
+		Assume we have list of student with their marks filter only those students who are passed
+		marks >= 40
+		array and object 
+		
+		
+		let objarr=[{id:1,name:"lmn",marks:88}{id:2,name:"abc",marks:90},{id:3,name:"xyz",marks:99}];
+		a.filter((marks)=>{if(marks>=40) return marks});
+		function myfun()
+				{
+					let objarr=[{id:1,name:"lmn",marks:88}{id:2,name:"abc",marks:90},{id:3,name:"xyz",marks:99}];
+					objarr.filter((marks)=>{if(marks>=40) return marks});
+					for(let k in obj)
+					{
+						console.log(k);			//	Returns only keys
+						console.log(obj[k]);	// Returns key and Values
+					}
+					myfun();
+				}
+		
+		
+		
+		--- Spread Operator  --- 
+			
+			... spread operator			// Seprate the Array Elements
+		
+
+			let arr1=[10,20,30];
+			let arr2 = [...arr1];
+			arr1.push(40);
+			console.log(arr1);
+			console.log(arr2);
+			
+		
+	DOM  (Document Object Model)
+	
+		1. It is a programming interface provided by the browser.
+		
+		2. It represent your HTML page as tree of the Object. 
+		
+		3. Document :- It is a object which represent complete web page.
+		
+				<html>
+					<head>
+						<body>
+							<h1> Welcome </h1>
+						</head>
+					</body>
+				</html>
+				
+		4. getElementById(id of element) :-	Returns the id of the element. 
+		
+		5. getElementByClassName :- Returns the all elementsin that class.
+		
+		6. getElementByTagName :- Returns the all elementsin that Tag. (e.g h1 tag).
+		
+		7. querySelector :- Returns the first matching element
+		
+			let a = document.querySelector("mainhead");
+			console.log(a);
+			
+		8. querySelectorAll :- It Returns the all Elements
+		
+		9. innerHTML   
+		10. textContent() 
+		11. CreateElement()
+		12. addEventListener()
+		13. append()
+		14. remove()
+		
+
+								
+			
+		--- EVENT  ---
+		
+		It is a notification which tells something has happened in the browser
+		JavaScript Respond to it  
+		
+		x.addEventListener 
+		
+
+
+
+
+		nestedcallback ==> callback hell
+			Nested CallBack
+			one call back in another call back
+
+		
+	       --- Promise ---
+
+			1. It is a Special JS Object that represent a task that will finish in the future either Successful or with an error.
+			    
+			2. It is the solution to callback hell problem. 
+			
+			3. There are 3 states for Promise Object 
+
+				1. Pending :- It is Displayed in the Initial State. 
+
+				2. fulfilled :- When the Fetching Data is UnSuccessful then it is Rejected
+
+				3. Rejected :- When the Fetching Data is UnSuccessful then it is Rejected
+	
+			4. Eg -  
+
+	 <script>
+        let obj = new Promise((resolve, reject) => {
+            resolve("Promise started");
+            reject("Promise failed");
+        });
+        obj.then((message) => {
+ 	           console.log(message);
+        }).catch((error) => {
+            console.error("Error:", error);
+        });
+
+    </script>
+
+
+	  --- ASYNCHRONOUS OPERACTION ---
+			
+			 	
+			
+			1. then() :- this Function is called when the object change its state from pending to fulfilled.
+					it is link resolve 
+
+			2. catch() :- It is linked with the Reject.
+			
+			          E.g :- 
+						   
+	<script>
+        console.log("1");
+        console.log("2");
+        console.log("3");
+        let obj = new Promise((resolve, reject) => {
+            
+            setTimeout(() => {
+                resolve("4");
+                reject("Network Error");
+            }, 3000);
+        });
+        obj.then((message) => {
+            console.log(message);
+        }).catch((error) => {
+            console.error("Error:", error);
+        }).catch((x)=>{
+            console.error("Another Error:", x);
+        })
+
+    </script> 	
+
+
+
+
+
+    <script>
+        function getdata1(){
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve("Data1 is Received");
+                }, 4000);
+            });
+        }
+
+        function getdata2(){
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve("Data2 is Received");
+                }, 4000);
+            });
+        }
+      
+
+        let p = getdata1();
+       p.then((result)=>{console.log(result)});
+       p.then(getdata2).then((result)=>{console.log(result)});
+
+
+    </script>
+
+
+       	
+		
+	
+	
+	
+	

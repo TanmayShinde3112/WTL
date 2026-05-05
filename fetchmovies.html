@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody id="tablebody">
+        </tbody>
+    </table>
+    <script>
+        async function FetchMovies() {
+            try {
+                const r = await fetch("movies.json");
+                if (!r.ok) throw new Error("Network response was not ok");
+                const movies = await r.json();
+                let tablebody = document.getElementById("tablebody");
+                let data = "";
+                movies.forEach((movie) => {
+                    data += `<tr>
+                        <td>${movie.name}</td>
+                        <td>${movie.Year}</td>
+                        <td>${movie.Rating}</td>
+                    </tr>`;
+                });
+                tablebody.innerHTML = data;
+            } catch (err) {
+                console.error("Error fetching movies:", err);
+            }
+        }
+        FetchMovies();
+    </script>
+</body>
+</html>

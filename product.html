@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyCart - E-Commerce Store</title>
+  <style>
+    /* Universal box-sizing */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body styling for font and background */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+      min-height: 100vh;
+    }
+
+    /* Header styling */
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Header title styling */
+    header h1 {
+      margin-bottom: 5px;
+    }
+
+    /* Navigation link styling */
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    /* Navigation link hover effect */
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Container for product cards */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    /* Product card styling */
+    .product-card {
+      background-color: white;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      width: 280px;
+      flex: 1 1 280px;
+      max-width: 300px;
+      position: relative;
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+
+    /* Product card hover effect */
+    .product-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    /* Sale tag styling */
+    .sale-tag {
+      position: absolute;
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      font-size: 14px;
+      font-weight: bold;
+      top: 10px;
+      left: 10px;
+      border-radius: 5px;
+      z-index: 1;
+    }
+
+    /* Product image styling */
+    .product-card img {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: contain;
+      background-color: #fafafa;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Product information section styling */
+    .product-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    /* Product title styling */
+    .product-info h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    /* Price styling */
+    .price {
+      color: #28a745;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    /* Button styling */
+    .btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    /* Button hover effect */
+    .btn:hover {
+      background-color: red;
+    }
+
+    /* Footer styling */
+    footer {
+      background-color: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 20px 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      margin-top: 20px; /* Add some space above the footer */
+    }
+
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+      }
+
+      .product-card {
+        width: 90%;
+        max-width: 100%;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+
+      header p {
+        font-size: 14px;
+      }
+
+      .btn {
+        width: 80%;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>MyCart Products</h1>
+    <p>Shop Laptops, Mobiles & Electronics at Amazing Discounts!</p>
+    <nav>
+      <a href="PR1.html">🏠 Home</a>
+      <a href="cart.html">🛒 Cart</a>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <!-- Product 1 -->
+    <div class="product-card">
+      <div class="sale-tag">17% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/714mXtkIrlL.jpg" alt="HP Laptop">
+      <div class="product-info">
+        <h3>HP Pavilion 15</h3>
+        <p class="price">₹55,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="HP Pavilion 15"
+                data-price="₹55,999"
+                data-image="https://m.media-amazon.com/images/I/714mXtkIrlL.jpg"
+                data-link="https://amzn.in/d/gaq1EOY">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+      <div class="sale-tag">12% OFF</div>
+      <img src="https://rukminim3.flixcart.com/image/850/1000/xif0q/mobile/y/p/f/galaxy-m14-4g-sm-m145f-ds-samsung-original-imah2hupupcwggdq.jpeg?q=90&crop=false" alt="Samsung Galaxy M14">
+      <div class="product-info">
+        <h3>Samsung Galaxy M14</h3>
+        <p class="price">₹12,499</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Samsung Galaxy M14"
+                data-price="₹12,499"
+                data-image="https://rukminim3.flixcart.com/image/850/1000/xif0q/mobile/y/p/f/galaxy-m14-4g-sm-m145f-ds-samsung-original-imah2hupupcwggdq.jpeg?q=90&crop=false"
+                data-link="https://www.amazon.in/dp/B0BZCR6TNK">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+      <div class="sale-tag">20% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/51qvmUtvsQL._SX679_.jpg" alt="Smart Watch">
+      <div class="product-info">
+        <h3>Noise Smart Watch</h3>
+        <p class="price">₹1,799</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Noise Smart Watch"
+                data-price="₹1,799"
+                data-image="https://m.media-amazon.com/images/I/51qvmUtvsQL._SX679_.jpg"
+                data-link="https://amzn.in/d/7Hh5I1W">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card">
+      <div class="sale-tag">15% OFF</div>
+      <img src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/7441/media-gallery/fpr/notebook-inspiron-7441-t-fpr-ice-blue-gallery-1.psd?fmt=pjpg&pscan=auto&scl=1&wid=3555&hei=2438&qlt=100,1&resMode=sharp2&size=3555,2438&chrss=full&imwidth=5000" alt="Dell Inspiron i5">
+      <div class="product-info">
+        <h3>Dell Inspiron i5</h3>
+        <p class="price">₹62,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Dell Inspiron i5"
+                data-price="₹62,999"
+                data-image="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/7441/media-gallery/fpr/notebook-inspiron-7441-t-fpr-ice-blue-gallery-1.psd?fmt=pjpg&pscan=auto&scl=1&wid=3555&hei=2438&qlt=100,1&resMode=sharp2&size=3555,2438&chrss=full&imwidth=5000"
+                data-link="https://amzn.in/d/2aQVItl">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 5 -->
+    <div class="product-card">
+      <div class="sale-tag">10% OFF</div>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5FU_R7BP-X27OhyKhofB6RuIiEzItDylraw&s" alt="iPhone 13">
+      <div class="product-info">
+        <h3>Apple iPhone 13</h3>
+        <p class="price">₹56,990</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Apple iPhone 13"
+                data-price="₹56,990"
+                data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5FU_R7BP-X27OhyKhofB6RuIiEzItDylraw&s"
+                data-link="https://amzn.in/d/bWkDjSN">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 6 -->
+    <div class="product-card">
+      <div class="sale-tag">25% OFF</div>
+      <img src="https://www.boat-lifestyle.com/cdn/shop/products/eb8e0fbd-c412-48b3-9c91-5b49ddf35800.png?v=1673002681" alt="boAt Headphones">
+      <div class="product-info">
+        <h3>boAt Rockerz 450</h3>
+        <p class="price">₹1,499</p>
+        <button class="btn add-to-cart-btn"
+                data-title="boAt Rockerz 450"
+                data-price="₹1,499"
+                data-image="https://www.boat-lifestyle.com/cdn/shop/products/eb8e0fbd-c412-48b3-9c91-5b49ddf35800.png?v=1673002681"
+                data-link="boAt Rockerz 450">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 7 -->
+    <div class="product-card">
+      <div class="sale-tag">5% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/31JDUhTPoLL._SY445_SX342_QL70_FMwebp_.jpg" alt="iPhone 16 Pro Max">
+      <div class="product-info">
+        <h3>iPhone 16 Pro Max</h3>
+        <p class="price">₹1,49,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="iPhone 16 Pro Max"
+                data-price="₹1,49,999"
+                data-image="https://m.media-amazon.com/images/I/31JDUhTPoLL._SY445_SX342_QL70_FMwebp_.jpg"
+                data-link="https://amzn.in/d/8j6KBSM">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 8 -->
+    <div class="product-card">
+      <div class="sale-tag">18% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/81kq5wkaqAL._AC_UY436_FMwebp_QL65_.jpg" alt="Apple Watch 2025">
+      <div class="product-info">
+        <h3>Apple Watch 2025</h3>
+        <p class="price">₹42,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Apple Watch 2025"
+                data-price="₹42,999"
+                data-image="https://m.media-amazon.com/images/I/81kq5wkaqAL._AC_UY436_FMwebp_QL65_.jpg"
+                data-link="https://amzn.in/d/ekZxDh0">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 9 -->
+    <div class="product-card">
+      <div class="sale-tag">10% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/71P85R392uL.jpg" alt="Samsung S25 Ultra">
+      <div class="product-info">
+        <h3>Samsung S25 Ultra</h3>
+        <p class="price">₹1,29,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Samsung S25 Ultra"
+                data-price="₹1,29,999"
+                data-image="https://m.media-amazon.com/images/I/71P85R392uL.jpg"
+                data-link="https://amzn.in/d/4qELJ9T">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 10 -->
+    <div class="product-card">
+      <div class="sale-tag">14% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/71gn83R0DPL._SX679_.jpg" alt="MacBook 2025">
+      <div class="product-info">
+        <h3>MacBook Pro 2025</h3>
+        <p class="price">₹1,89,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="MacBook Pro 2025"
+                data-price="₹1,89,999"
+                data-image="https://m.media-amazon.com/images/I/71gn83R0DPL._SX679_.jpg"
+                data-link="https://amzn.in/d/5E5Ouf0">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 11 -->
+    <div class="product-card">
+      <div class="sale-tag">22% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/51yWZxN3vRL._UF1000,1000_QL80_.jpg" alt="Bose Headphones 2025">
+      <div class="product-info">
+        <h3>Bose QC Headphones 2025</h3>
+        <p class="price">₹29,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Bose QC Headphones 2025"
+                data-price="₹29,999"
+                data-image="https://m.media-amazon.com/images/I/51yWZxN3vRL._UF1000,1000_QL80_.jpg"
+                data-link="https://amzn.in/d/6J9wJ4T">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Product 12 -->
+    <div class="product-card">
+      <div class="sale-tag">30% OFF</div>
+      <img src="https://m.media-amazon.com/images/I/41S8-gY7KnL._SY300_SX300_QL70_FMwebp_.jpg" alt="Sony OLED TV 2025">
+      <div class="product-info">
+        <h3>Sony OLED TV 2025</h3>
+        <p class="price">₹2,49,999</p>
+        <button class="btn add-to-cart-btn"
+                data-title="Sony OLED TV 2025"
+                data-price="₹2,49,999"
+                data-image="https://m.media-amazon.com/images/I/41S8-gY7KnL._SY300_SX300_QL70_FMwebp_.jpg"
+                data-link="https://amzn.in/d/bHN7tWk">Add to Cart</button>
+      </div>
+    </div>
+
+  </div> <!-- Closing .container -->
+
+  <footer>
+    <p>© 2025 MyCart. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Get all "Add to Cart" buttons
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+    // Add click event listener to each button
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        // Prevent default button behavior (e.g., form submission if it were a submit button)
+        event.preventDefault();
+
+        // Get product details from data attributes
+        const product = {
+          title: button.dataset.title,
+          price: button.dataset.price,
+          image: button.dataset.image,
+          link: button.dataset.link
+        };
+
+        // Retrieve existing cart items from local storage, or initialize an empty array
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Add the new product to the cart
+        cartItems.push(product);
+
+        // Save the updated cart back to local storage
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+
+        // Optionally, provide feedback to the user
+        alert(`${product.title} has been added to your cart!`);
+      });
+    });
+  </script>
+
+</body>
+</html>

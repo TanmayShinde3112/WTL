@@ -1,0 +1,6 @@
+***	Node.js	 ***
+
+1. Runs the JS using the Google's V8 Engine(Same Engine as Chrome).
+2. V8 Compiles JS to Native Machine code for Faster Execution.
+3. Exposes Runtime APIs (Filesystems ,Network ,timer) Not in Browser.
+4.  

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head><title>Student Info</title></head>
+<body>
+<h1>Student Info Form</h1>
+
+Name: <input type="text" id="student_name" placeholder="Enter Name"><br><br>
+Marks: <input type="text" id="student_marks" placeholder="Enter Marks"><br><br>
+
+<button onclick="insertData()">Insert</button>
+<button onclick="displayData()">Display</button>
+
+<div id="display_area" style="margin-top:20px;"></div>
+
+<script>
+async function insertData() {
+  let name = document.getElementById('student_name').value.trim();
+  let marks = document.getElementById('student_marks').value.trim();
+  if (!name) return alert("Enter name");
+  if (!marks || isNaN(marks)) return alert("Enter valid marks");
+
+  let data = { action: "insert", student_name: name, student_marks: marks };
+  let res = await fetch("http://localhost/php/test3.php", {
+    method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)
+  });
+  alert(await res.text());
+  document.getElementById('student_name').value = "";
+  document.getElementById('student_marks').value = "";
+  displayData();
+}
+
+async function displayData() {
+  let res = await fetch("http://localhost/php/test3.php", {
+    method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({action: "display"})
+  });
+  let json = await res.json();
+  let html = "<table border='1'><tr><th>ID</th><th>Name</th><th>Marks</th></tr>";
+  for(let rec of json.data) {
+    html += `<tr><td>${rec.id}</td><td>${rec.name}</td><td>${rec.marks}</td></tr>`;
+  }
+  html += "</table>";
+  document.getElementById('display_area').innerHTML = html;
+}
+</script>
+</body>
+</html>

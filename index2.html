@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        border: #333 1px solid;
+        
+    }
+
+    .item {
+        width: 300px;
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        background-color: #f9f9f9;
+
+    }
+
+    .item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        
+
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+
+    }
+   
+    
+   
+    button.btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button.btn:hover {
+        background-color: #218838;
+    }
+
+
+    @media (max-width: 600px) {
+        .container {
+            flex-direction: column;
+            align-items: center;
+        }
+        .nav-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+
+</style>
+<header>
+    
+<div class="container nav-container">
+<div class="item">
+    <img src="mobile1.jpeg" alt="Mobile 1" width="300" height="200">
+    <h1> iPhone 15 Pro Max </h1>
+    <p> This is Best Smartphone</p>
+    <button class="btn">Buy Now</button>
+    </div>
+
+    <div class="item">
+    <img src="mobile2.jpeg" alt="Mobile 2" width="300" height="200">
+    <h1> iPhone 16 Pro Max </h1>
+    <p> This is Best Smartphone</p>
+    <button class="btn">Buy Now</button>
+    </div>
+
+    <div class="item">
+    <img src="mobile3.jpeg" alt="Mobile 3" width="300" height="200"> 
+    <h1> iPhone 15</h1>   
+    <p> This is Best Smartphone</p>
+    <button class="btn">Buy Now</button>
+
+    </div> 
+</body>
+</html>

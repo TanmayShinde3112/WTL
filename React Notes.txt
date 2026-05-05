@@ -1,0 +1,105 @@
+React JS
+
+1. Javascript Library 
+2. Developed by META
+3. Used to create fast,dynamic and interactive web application
+4. Modern Veiw Control architecture
+   
+5. It is Component Based and gives the Reusability
+   
+   Types :    
+	1.Functional components 
+	2.Class components
+	
+6. 	It uses the Virtual DOM for Efficient Rendering
+	it is copy of physical DOM
+	virtual Dom is copy of real Dom
+	
+7.  It maintain 2 copies virtual and real/ physical and virtual
+	it updates only the Virtual mode
+	compare with real Dom
+	and change the only changed part in it.
+	rest of code with remain untouched
+	
+JSX JavaScript XML
+
+	JSX is Used in the React
+	JSX COMBINE HTML JS CODE
+	Browser  cannot understand  the Code
+	Babel is used to  compile it into the JavaScript
+	
+	E.g -> const element = <h1> Hello </h1>;
+			
+			const name = "Aarav";
+			const element = <h1> hello,{name} </h1>;
+			
+			
+Build Tool
+
+	It converts modern code into the browser friendly JS,HTML, & CSS.
+	Vite - Modern , Fast , Optimized (React, Vue , svelte)
+	dist/ folder 
+	
+	
+Vite
+	Command - npm create vite@latest my-app
+	React 
+	javascript
+	cd firstapp
+	npm install
+	npm run dev
+
+	npm myapp
+	npm run dev
+	
+	INDEX.HTML div whose id root
+	main.jsx =  accessing whose id root and rendering the app.jsx
+	App.jsx
+
+	Types of Components	
+	
+	1. class  components 
+	2. Functional Components
+
+
+	App.jsx Example => 
+		
+		
+function App() {
+  return (
+    <div className="App">
+      <h1>Welcome to React!</h1>
+      <h3> 1. Introduction </h3>
+    </div>
+  );
+}
+
+export default App;
+
+	
+
+Props :- Props (short for "properties") are how data is passed from a parent React component to a child component. They are similar to function arguments. Props are read-only inside child components — you cannot modify them there.
+
+Example:
+
+jsx
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+
+// Usage:
+<Greeting name="Alice" />
+
+ 
+	
+	
+
+	how to run react code 
+SAVES ALL THE FILES IN SRC 
+1. OPEN FOLDER OF REACT CODES
+2. NPM INSTALL
+3. NPM START
+	
+	
+   
+   

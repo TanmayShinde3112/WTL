@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body{
+
+      align-items: center;
+      background-color: antiquewhite;
+      box-shadow: inset black;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding: 20px;
+      border: 2px solid black;
+    }
+    h1{
+      color: brown;
+    }
+    #dogs img{
+      border: 3px solid black;
+      border-radius: 8px;
+      margin: 5px;
+      max-width: 200px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    }
+    
+
+  </style>
+</head>
+<body>
+  <h1> RANDOM DOGS IMAGES </h1>
+  <div id ="dogs"></div>
+
+  <script>
+    async function fetchDogs() {
+      try {
+
+          console.log("Starting the Dog Fetch API ");
+          const r = await fetch('https://dog.ceo/api/breeds/image/random/5');
+          console.log("API Status: ", r.status);
+          if (!r.ok) throw new Error(`HTTP Error ${r.status}`);
+
+          const data =  await r.json();
+          console.log("FULL API DATA OBJECT:", data);
+
+          const { message } = data;
+          console.log("IMages URL", message);
+
+          const container = document.getElementById('dogs');
+          container.innerHTML = " ";
+
+          for(let i = 0; i < message.length; i++)
+          {
+            console.log( `Rendering images # ${i+1}: ${message[i]}`);
+            const img = document.createElement('img');
+            img.src = message[i];
+            container.appendChild(img);
+          }
+
+          console.log("ALL Images Rendered Successfully");
+         }
+         catch(err)
+         {
+          console.error("ERROR IN ACCESSING FETCH API ",err);
+         }
+        }
+         fetchDogs();
+      
+      
+  </script>
+
+</body>
+</html>

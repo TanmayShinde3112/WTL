@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Attendance Count - Filter Method</title>
+</head>
+<body>
+    <h1>Check the Console for Attendance Count!</h1>
+
+    <script>
+        const attendance = [
+            { name: "Prasad", status: "present" },
+            { name: "harshad", status: "present" },
+            { name: "tanmay", status: "present" },
+            { name: "vaibhav", status: "present" },
+            { name: "Om", status: "absent" },
+            { name: "Rohan", status: "present" },
+            { name: "Sita", status: "absent" },
+            { name: "Amit", status: "present" },
+            { name: "Nina", status: "absent" },
+            { name: "Raj", status: "present" }
+        ];
+
+        
+        const presentStudentsArray = attendance.filter(student => student.status === "present");
+        const pcount = presentStudentsArray.length;
+
+        console.log("--- Attendance Summary (Filter Method) ---");
+        console.log("Number of present students:", pcount);
+
+        
+        console.log("Present students list:", presentStudentsArray);
+
+        console.log("\n--- Full Attendance Details ---");
+        attendance.forEach(student => {
+            console.log(`${student.name}: ${student.status}`);
+        });
+    </script>
+</body>
+</html>

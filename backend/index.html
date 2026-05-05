@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Student CRUD</h3>
+ID: <input id="id"><br>
+JSON: <textarea id="data"></textarea><br>
+
+<button onclick="all()">All</button>
+<button onclick="one()">Get</button>
+<button onclick="post()">Add</button>
+<button onclick="put()">Update</button>
+<button onclick="del()">Delete</button>
+
+<pre id="out"></pre>
+
+<script>
+  const out = document.getElementById("out"),
+        id = () => document.getElementById("id").value,
+        data = () => document.getElementById("data").value;
+
+  async function all() {
+    let r = await fetch("http://localhost:3000/students");
+    out.textContent = await r.text();
+  }
+  async function one() {
+    let r = await fetch("http://localhost:3000/student?id=" + id());
+    out.textContent = r.ok ? await r.text() : "Not found";
+  }
+  async function post() {
+    await send("http://localhost:3000/addstudent", "POST");
+  }
+  async function put() {
+    await send(`http://localhost:3000/updatestudent/${id()}`, "PUT");
+  }
+  async function del() {
+    let r = await fetch("http://localhost:3000/deletestudent/" + id(), {method:"DELETE"});
+    out.textContent = r.ok ? "Deleted\n"+await r.text() : "Not found";
+  }
+  async function send(url, method) {
+    try {
+      let body = JSON.stringify(JSON.parse(data()));
+      let r = await fetch(url, {
+        method,
+        headers: {"Content-Type":"application/json"},
+        body
+      });
+      out.textContent = await r.text();
+    } catch {
+      alert("Invalid JSON");
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+
+    body{
+    background-color: aliceblue;
+    align-items: center;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 100px;
+    margin: auto;
+    border-radius: 5px;
+    max-width: 700px;
+}
+
+  h2{
+    color: black;
+  }
+
+  input{
+    padding: 10px;
+    width: 70%;
+    border: 1px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+button{
+    padding: 10px;
+    margin-left: 10px;
+    color: white;
+    background-color: tomato;
+    cursor: pointer;
+    font-size: 16px;
+}
+  li{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+}
+
+li:hover{
+    background-color: aliceblue;
+}
+
+ul{
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    list-style-type: none;
+    font-size: 16px;
+    margin-top: auto;
+    border-radius: 10px;
+    background-color: white;
+}
+
+li span{
+    flex-grow: 1;
+    text-align: left;
+    cursor: pointer;
+}
+
+
+</style>
+
+</head>
+<body>
+    <h1>My Personalized To Do List</h1>
+    <input id='taskInput' placeholder = " Enter Task ">
+    <button onclick = "AddTask()"> ADD TASK</button>
+
+    <ul id="tasklist"></ul>
+
+<script>
+    function AddTask()  {
+
+    let input = document.getElementById('taskInput');
+    let text = input.value.trim();
+
+    if(!text) {
+        return alert('Enter Task');
+    }
+
+    let li = document.createElement('li');
+
+    let span = document.createElement('span');
+    span.textContent = text;
+    span.onclick = () => {
+        span.style.textDecoration = span.style.textDecoration === 'line-through' ? ' ' : 'line-through'; 
+    };
+
+    let editbtn = document.createElement('button');
+    editbtn.textContent = 'EDIT';
+    editbtn.onclick = () => {
+        let newText = prompt('Edit Text', span.textContent);
+        if (newText) {
+            span.textContent = newText.trim();
+            span.style.textDecoration = ' ';
+        }
+    };
+
+
+    let deletebtn = document.createElement('button');
+    deletebtn.textContent = 'DELETE';
+    deletebtn.onclick = () => {
+        if(confirm ('Delete Task'))li.remove();
+    };
+
+    li.appendChild(span);
+    li.appendChild(editbtn);
+    li.appendChild(deletebtn);
+
+    document.getElementById('tasklist').appendChild(li);
+    input.value = ' ';
+
+    }
+
+ </script>
+
+
+
+</body>
+</html>

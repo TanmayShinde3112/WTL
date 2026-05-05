@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Manipulation Practice Tasks</title>
+    <style>
+        .hidden { display: none; }
+        .highlight { background: yellow; }
+        .done { text-decoration: line-through; color: gray; }
+        .accordion-content { display: none; }
+        .accordion-active { display: block; }
+        .dark-mode { background: #222; color: #eee; }
+        .invalid { border: 2px solid red; }
+        .dropdown-content { display: none; }
+        .dropdown:hover .dropdown-content { display: block; }
+    </style>
+</head>
+<body>
+    <h1>JavaScript DOM Manipulation Practice Tasks</h1>
+
+    <section>
+        <h2>1. Change Paragraph Text</h2>
+        <p id="para1">Original text.</p>
+        <button onclick="document.getElementById('para1').textContent = 'Changed with JavaScript!';">Change Text</button>
+    </section>
+
+    <section>
+        <h2>2. Change Image Source</h2>
+        <img id="img1" src="mobile1.jpeg" alt="Sample Image style">
+        <button onclick="let img=document.getElementById('img1'); img.src='mobile2.jpeg'; img.style.width='100px'; img.style.height='100px';">Change Image</button>
+    </section>
+
+    <section>
+        <h2>3. Change DIV Background</h2>
+        <div id="colorDiv" style="width:100px;height:50px;background:#ccc;"></div>
+        <button onclick="document.getElementById('colorDiv').style.background = 'lightgreen';">Change Color</button>
+    </section>
+
+    <section>
+        <h2>4. Toggle Visibility</h2>
+        <div id="toggleDiv" style="background:#eaeaea;padding:10px;">I can be hidden!</div>
+        <button onclick="let d=document.getElementById('toggleDiv');d.style.display=d.style.display==='none'?'block':'none';">Toggle Show/Hide</button>
+    </section>
+
+    <section>
+        <h2>5. Add List Item</h2>
+        <ul id="list1"><li>Item 1</li></ul>
+        <button onclick="let ul=document.getElementById('list1');let li=document.createElement('li');li.textContent='New Item';ul.appendChild(li);">Add Item</button>
+    </section>
+
+    <section>
+        <h2>6. Delete Element</h2>
+        <div id="deleteMe">Delete Me if you Click the Button</div>
+        <button onclick="let el=document.getElementById('deleteMe');el.parentNode.removeChild(el);">Delete Element</button>
+    </section>
+
+    <section>
+        <h2>7. Add CSS Class</h2>
+        <p id="p2">Watch me highlight!</p>
+        <button onclick="document.getElementById('p2').classList.add('highlight');">Highlight</button>
+    </section>
+
+    <section>
+        <h2>8. Display Input Value</h2>
+        <input id="input8" type="text" placeholder="Type something">
+        <button onclick="document.getElementById('display8').textContent = document.getElementById('input8').value;">Display</button>
+        <div id="display8" style="margin-top:10px;"></div>
+    </section>
+
+    <section>
+        <h2>9. Font Size Changer</h2>
+        <span id="fontText" style="font-size:16px;">Resize me!</span>
+        <button onclick="let t=document.getElementById('fontText');t.style.fontSize=(parseInt(t.style.fontSize)+2)+'px';">A+</button>
+        <button onclick="let t=document.getElementById('fontText');t.style.fontSize=(parseInt(t.style.fontSize)-2)+'px';">A-</button>
+    </section>
+
+    <section>
+        <h2>10. Live Character Count</h2>
+        <textarea id="charArea" rows="2" cols="30" oninput="document.getElementById('count10').textContent=this.value.length;"></textarea>
+        <div>Characters: <span id="count10">0</span></div>
+    </section>
+
+    <section>
+        <h2>11. Simple To-Do List</h2>
+        <input id="todoInput" type="text" placeholder="To-Do">
+        <button onclick="addTodo()">Add</button>
+        <ul id="todoList"></ul>
+        <script>
+            function addTodo() {
+                const input = document.getElementById('todoInput');
+                if (!input.value) return;
+                let li = document.createElement('li');
+                li.textContent = input.value;
+                li.onclick = () => li.classList.toggle('done');
+                let del = document.createElement('button');
+                del.textContent = 'Delete';
+                del.style.marginLeft = '10px';
+                del.onclick = function(e){ e.stopPropagation(); li.remove(); };
+                li.appendChild(del);
+                document.getElementById('todoList').appendChild(li);
+                input.value = '';
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>12. Accordion</h2>
+        <div>
+            <button onclick="toggleAccordion('acc1')">Section 1</button>
+            <div id="acc1" class="accordion-content">This is the content for section 1.</div>
+        </div>
+        <div>
+            <button onclick="toggleAccordion('acc2')">Section 2</button>
+            <div id="acc2" class="accordion-content">This is the content for section 2.</div>
+        </div>
+        <script>
+            function toggleAccordion(id) {
+                let el = document.getElementById(id);
+                el.classList.toggle('accordion-active');
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>13. Image Gallery</h2>
+        <img id="galleryImg" src="mobile1.jpeg" width="100">
+        <button onclick="changeImg(-1)">Previous</button>
+        <button onclick="changeImg(1)">Next</button>
+        <script>
+            const imgs = [
+                "mobile1.jpeg",
+                "mobile2.jpeg",
+                "mobile3.jpeg"
+            ];
+            let imgIdx = 0;
+            function changeImg(dir) {
+                imgIdx = (imgIdx + dir + imgs.length) % imgs.length;
+                document.getElementById('galleryImg').src = imgs[imgIdx];
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>14. Dynamic Table</h2>
+        <table id="dynTable" border="1">
+            <tr><th>Name</th><th>Action</th></tr>
+        </table>
+        <button onclick="addRow()">Add Row</button>
+        <script>
+            function addRow() {
+                let name = prompt('Enter name:');
+                if (!name) return;
+                let row = document.createElement('tr');
+                let td1 = document.createElement('td');
+                td1.textContent = name;
+                let td2 = document.createElement('td');
+                let btn = document.createElement('button');
+                btn.textContent = 'Delete';
+                btn.onclick = function(){ row.remove(); };
+                td2.appendChild(btn);
+                row.appendChild(td1); row.appendChild(td2);
+                document.getElementById('dynTable').appendChild(row);
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>15. Dark Mode Toggle</h2>
+        <button onclick="document.body.classList.toggle('dark-mode');">Toggle Dark Mode</button>
+    </section>
+
+    <section>
+        <h2>16. Live List Filter</h2>
+        <input id="search16" type="text" placeholder="Search..." oninput="filter16()">
+        <ul id="ul16">
+            <li>Apple</li>
+            <li>Banana</li>
+            <li>Orange</li>
+            <li>Grape</li>
+        </ul>
+        <script>
+            function filter16() {
+                let val = document.getElementById('search16').value.toLowerCase();
+                let items = document.querySelectorAll('#ul16 li');
+                items.forEach(li => {
+                    li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
+                });
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>17. Dropdown Menu</h2>
+        <div class="dropdown" style="position:relative;">
+            <button>Menu</button>
+            <div class="dropdown-content" style="position:absolute;left:0;background:#fff;border:1px solid #ccc;">
+                <a href="#">Submenu 1</a><br>
+                <a href="#">Submenu 2</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>18. Form Validation</h2>
+        <form id="valForm" onsubmit="return validate18()">
+            <input id="fi1" type="text" placeholder="Required">
+            <input id="fi2" type="text" placeholder="Required">
+            <button type="submit">Submit</button>
+        </form>
+        <script>
+            function validate18() {
+                let good = true;
+                ['fi1','fi2'].forEach(id => {
+                    let f = document.getElementById(id);
+                    if (!f.value) { f.classList.add('invalid'); good = false; }
+                    else f.classList.remove('invalid');
+                });
+                return good;
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>19. Image Slideshow/Carousel</h2>
+        <img id="slide19" src="mobile1.jpeg" width="100">
+        <button onclick="slide19(-1)">Prev</button>
+        <button onclick="slide19(1)">Next</button>
+        <script>
+            const slides19 = [
+                "mobile1.jpeg",
+                "mobile2.jpeg",
+                "mobile3.jpeg"
+            ];
+            let idx19 = 0;
+            function slide19(dir) {
+                idx19 = (idx19 + dir + slides19.length) % slides19.length;
+                document.getElementById('slide19').src = slides19[idx19];
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>20. Event Delegation</h2>
+        <ul id="ul20">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+        </ul>
+        <script>
+            document.getElementById('ul20').onclick = function(e) {
+                if (e.target.tagName === 'LI') {
+                    alert("You clicked: " + e.target.textContent);
+                }
+            }
+        </script>
+    </section>
+
+</body>
+</html>

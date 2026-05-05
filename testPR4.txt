@@ -1,0 +1,126 @@
+<?php // Start the PHP script
+
+$conn = new mysqli("localhost", "root", "", "school"); // Create a new MySQL connection with given parameters
+
+if ($conn->connect_error) { // Check if connection failed
+    http_response_code(500); // Set HTTP error status
+    echo json_encode(["error" => "Connection failed: " . $conn->connect_error]); // Print error JSON
+    exit(); // Stop script if there is a connection error
+}
+
+$data = json_decode(file_get_contents('php://input'), true); // Get POSTed JSON input and decode to $data array
+
+$action = $data['action'] ?? ''; // Check and set which action to perform
+
+if ($action === 'insert') { // If the action is 'insert'
+    $name = trim($data['student_name'] ?? ''); // Get and trim student name from input
+    $marks = trim($data['student_marks'] ?? ''); // Get and trim student marks from input
+
+    if ($name === '' || $marks === '' || !is_numeric($marks)) { // Check inputs for validity
+        echo "Invalid input for insert."; // Print validation error
+        exit(); // Stop script for invalid input
+    }
+
+    $marks = intval($marks); // Convert marks to integer
+    $stmt = $conn->prepare("INSERT INTO student (name, marks) VALUES (?, ?)"); // Prepare SQL insert statement
+    $stmt->bind_param("si", $name, $marks); // Bind parameters: name as string, marks as int
+
+    if ($stmt->execute()) { // Try executing statement
+        $stmt->close(); // Close prepared statement
+        $conn->close(); // Close the database connection
+        echo "Data inserted successfully."; // Print success message
+        exit(); // Stop script after successful insert
+    } else { // If there was an error executing insert statement
+        $error = $stmt->error; // Store error detail
+        $stmt->close(); // Close statement
+        $conn->close(); // Close connection
+        echo "Error inserting data: " . $error; // Print error message
+        exit(); // End script execution
+    }
+}
+
+if ($action === 'display') { // If action is display (show all records)
+    $result_arr = []; // Empty array to store results
+
+    $stmt = $conn->prepare("SELECT id, name, marks FROM student"); // Prepare SQL select statement
+
+    if ($stmt->execute()) { // Execute select statement
+        $result = $stmt->get_result(); // Get result set from statement
+
+        while ($row = $result->fetch_assoc()) { // Loop through result rows
+            $result_arr[] = $row; // Add row to result array
+        }
+
+        $stmt->close(); // Close statement
+        $conn->close(); // Close connection
+
+        echo json_encode(['data' => $result_arr]); // Print results as JSON
+        exit(); // End script
+    } else { // If query failed
+        $error = $stmt->error; // Store error
+        $stmt->close(); // Close the statement
+        $conn->close(); // Close connection
+        echo json_encode(['error' => $error]); // Print error JSON
+        exit(); // Stop script
+    }
+}
+
+if ($action === 'edit') { // If action is edit (update record)
+    $id = intval($data['student_id'] ?? 0); // Get and set record id (int)
+    $name = trim($data['student_name'] ?? ''); // Get and trim name
+    $marks = trim($data['student_marks'] ?? ''); // Get and trim marks
+
+    if ($id <= 0 || $name === '' || $marks === '' || !is_numeric($marks)) { // Validate input
+        echo "Invalid input for update."; // Print error for invalid input
+        exit(); // Stop script
+    }
+
+    $marks = intval($marks); // Convert marks to integer
+
+    $stmt = $conn->prepare("UPDATE student SET name = ?, marks = ? WHERE id = ?"); // Prepare update SQL
+    $stmt->bind_param("sii", $name, $marks, $id); // Bind name, marks, id to statement
+
+    if ($stmt->execute()) { // Try executing update
+        $stmt->close(); // Close statement
+        $conn->close(); // Close database connection
+        echo "Data updated successfully."; // Print success message
+        exit(); // Stop script
+    } else { // If update fails
+        $error = $stmt->error; // Store error
+        $stmt->close(); // Close statement
+        $conn->close(); // Close connection
+        echo "Error updating data: " . $error; // Print error message
+        exit(); // End script
+    }
+}
+
+if ($action === 'delete') { // If action is delete
+    $id = intval($data['student_id'] ?? 0); // Get id to delete
+
+    if ($id <= 0) { // Validate id
+        echo "Invalid ID for delete."; // Print error for bad id
+        exit(); // Stop script
+    }
+
+    $stmt = $conn->prepare("DELETE FROM student WHERE id = ?"); // Prepare delete statement
+    $stmt->bind_param("i", $id); // Bind id as integer
+
+    if ($stmt->execute()) { // Try execute delete
+        $stmt->close(); // Close statement
+        $conn->close(); // Close connection
+        echo "Data deleted successfully."; // Print success
+        exit(); // Stop script
+    } else { // If delete fails
+        $error = $stmt->error; // Error detail
+        $stmt->close(); // Close statement
+        $conn->close(); // Close connection
+        echo "Error deleting data: " . $error; // Print error
+        exit(); // End script
+    }
+}
+
+$conn->close(); // Close connection for unknown actions
+echo json_encode(["error" => "Invalid action."]); // Print invalid action error
+exit(); // End script
+
+?> // End PHP code

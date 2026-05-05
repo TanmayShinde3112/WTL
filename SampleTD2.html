@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        padding: 100px;
+        border-radius: 5px;
+        max-width: 700px;
+        margin: auto;
+        align-items: center;
+        text-align: center;
+    }
+    h2{
+        color: #333;
+    }
+    input{
+        padding: 10px;
+        width: 70%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button{
+        background-color: tomato;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    li{
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+    }
+    li:hover{
+        background-color: #e9e9e9;
+    }
+    ul{
+        list-style-type: none;
+        padding: 0;
+    }
+   
+    input:focus{
+        border-color: #777;
+        outline: none;
+    }
+    input::placeholder{
+        color: #aaa;
+    }
+  
+  
+ul{
+    max-height: 300px;
+    overflow-y: auto;
+}
+input, button{
+    font-size: 16px;
+}
+ul{
+    font-size: 18px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    background-color: #fff;
+    border-radius: 4px;
+    align-items: center;
+}
+
+</style>
+<body>
+    <h2> My Personalized Todo List </h2>
+    <input id="taskInput" placeholder="Add a task" /><br><br>
+    <button onclick="AddTask()" >ADD TASK</button>
+    <ul id="tasklist"> </ul>
+
+    <script>
+    function AddTask() {
+
+    let input = document.getElementById('taskInput');
+    let text = input.value.trim();
+    if(!text)  return alert('Enter the task');
+    
+    let li = document.createElement('li');
+    li.textContent = text;
+
+    li.onclick = () => li.style.textDecoration = li.style.textDecoration === 'line-through' ? ' ' :'line-through';
+
+    li.oncontextmenu = (e) => {
+        e.preventDefault();
+        if(confirm ('Delete Task?')) li.remove();
+    };
+
+    li.ondblclick = () => {
+        let newText = prompt('Edit Text: ', li.textContent);
+        if(newText) li.textContent = newText.trim();
+    };
+
+    document.getElementById('tasklist').appendChild(li);
+    input.value = ' ';
+
+
+    }
+    </script>
+    
+</body>
+</html>

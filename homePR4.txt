@@ -1,0 +1,229 @@
+<!DOCTYPE html> <!-- Declare the document type as HTML5 -->
+<html>
+<head>
+    <title>Student Information</title> <!-- Page title shown in browser tab -->
+    <style>
+        /* Style table and its cells with borders and padding */
+        #mytable, #mytable th, #mytable td {
+            border: 1px solid black; /* Black border for table and cells */
+            border-collapse: collapse; /* Collapse border spacing */
+            padding: 8px; /* Padding inside cells */
+        }
+        body {
+            font-family: Arial, sans-serif; /* Set body font */
+            margin: 20px; /* Margin around body */
+            background-color: #f4f4f4; /* Light gray background */
+            color: #333; /* Text color */
+            align-items: center; /* Align children center vertically (flex) */
+            justify-content: center; /* Align children center horizontally (flex) */
+            display: flex; /* Set body as flex container */
+            flex-direction: column; /* Arrange children vertically */
+            min-height: 100vh; /* Minimum height full viewport */
+            justify-content: flex-start; /* Override horizontal justification (top align) */
+        }
+    </style>
+</head>
+<body>
+    <h1>STUDENT INFORMATION FORM</h1> <!-- Main heading -->
+
+    <p>Enter Student ID (for Edit/Delete):</p> <!-- Instruction text -->
+    <input type="text" id="student_id" name="student_id" value="" placeholder="Enter Student ID for Edit/Delete" style="width: 15%;"> <!-- Input for student ID -->
+
+    <p>Enter Student Name:</p> <!-- Instruction for name -->
+    <input type="text" id="student_name" name="student_name" value="" placeholder="Enter Student Name" style="width: 15%;"> <!-- Input for name -->
+
+    <p>Enter Student Marks:</p> <!-- Instruction for marks -->
+    <input type="text" id="student_marks" name="student_marks" value="" placeholder="Enter Student Marks" style="width: 15%;"><br><br> <!-- Input for marks -->
+
+    <input type="button" value="INSERT" id="submit_button" style="background-color: silver;"><br><br> <!-- Insert button -->
+    <input type="button" value="DISPLAY" id="display_button" style="background-color: green;"><br><br> <!-- Display button -->
+    <input type="button" value="EDIT" id="edit_button" style="background-color: pink;"><br><br> <!-- Edit button -->
+    <input type="button" value="DELETE" id="delete_button" style="background-color: red;"><br><br> <!-- Delete button -->
+
+    <div id="display_area" style="margin-top: 20px;"></div> <!-- Area where data table will display -->
+
+    <script>
+        // Validate inputs for insert operation
+        function validateInsert() {
+            const name = document.getElementById('student_name').value.trim(); // Get trimmed student name
+            const marks = document.getElementById('student_marks').value.trim(); // Get trimmed student marks
+
+            if (name === "") { // Name cannot be empty
+                alert("Please enter Student Name."); // Alert user
+                return false; // Validation failed
+            }
+            if (marks === "") { // Marks cannot be empty
+                alert("Please enter Student Marks."); // Alert user
+                return false; // Validation failed
+            }
+            if (isNaN(marks)) { // Marks must be a number
+                alert("Marks must be a number."); // Alert user
+                return false; // Validation failed
+            }
+            return true; // Valid inputs
+        }
+
+        // Validate inputs for edit/delete operations
+        function validateEditDelete() {
+            const id = document.getElementById('student_id').value.trim(); // Get trimmed student ID
+            if (id === "") { // ID cannot be empty
+                alert("Please enter Student ID."); // Alert user
+                return false; // Validation failed
+            }
+            if (isNaN(id) || parseInt(id) <= 0) { // ID must be positive number
+                alert("Student ID must be a valid positive number."); // Alert user
+                return false; // Validation failed
+            }
+            return true; // Valid input
+        }
+
+        // Insert student data via POST request
+        async function insertData() {
+            if (!validateInsert()) return; // Validate before insert
+
+            let data = {
+                action: "insert", // Specify action
+                student_name: document.getElementById('student_name').value.trim(), // Trimmed name
+                student_marks: document.getElementById('student_marks').value.trim() // Trimmed marks
+            };
+            let response = await fetch("http://localhost/php/test3.php", { // Send data to backend PHP
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            let result = await response.text(); // Await result text
+            alert(result); // Alert user with result
+            clearInputs(); // Clear input fields
+            clearDisplay(); // Clear displayed data
+        }
+
+        // Get and display student data in table
+        async function getdata() {
+            let res = await fetch("http://localhost/php/test3.php", { // Request display action
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({action: "display"})
+            });
+            let data = await res.json(); // Parse JSON response
+            clearDisplay(); // Clear existing display
+
+            let tableBody = document.querySelector("#tablebody"); // Check for existing table body
+
+            if (!tableBody) { // If table not exist, create it
+                let table = document.createElement("table"); // Create table element
+                table.setAttribute("id", "mytable"); // Set table id
+
+                let header = document.createElement("thead"); // Create table header
+                let headerRow = document.createElement("tr"); // Header row
+                ["ID", "Name", "Marks"].forEach(text => { // Header cells for each column
+                    let th = document.createElement("th");
+                    th.textContent = text;
+                    headerRow.appendChild(th);
+                });
+                header.appendChild(headerRow);
+                table.appendChild(header);
+
+                let body = document.createElement("tbody"); // Create tbody for rows
+                body.setAttribute("id", "tablebody");
+                table.appendChild(body);
+
+                document.getElementById("display_area").appendChild(table); // Append table to display area
+                tableBody = document.querySelector("#tablebody"); // Get tbody reference
+            }
+
+            let records = data.data; // Extract records array
+            tableBody.innerHTML = ""; // Clear current rows
+
+            for (let rec of records) { // Iterate through each record
+                let row = document.createElement("tr"); // Create a row
+                [rec.id, rec.name, rec.marks].forEach(value => { // For each record value
+                    let cell = document.createElement("td"); // Create table cell
+                    cell.textContent = value; // Set cell text
+                    row.appendChild(cell); // Add cell to row
+                });
+                tableBody.appendChild(row); // Add row to tbody
+            }
+        }
+
+        // Edit existing student data via POST request
+        async function editData() {
+            if (!validateEditDelete()) return; // Validate ID input
+
+            const name = document.getElementById('student_name').value.trim(); // Get updated name
+            const marks = document.getElementById('student_marks').value.trim(); // Get updated marks
+
+            if (name === "") { // Additional validation for name
+                alert("Please enter Student Name for update.");
+                return;
+            }
+            if (marks === "") { // Additional validation for marks
+                alert("Please enter Student Marks for update.");
+                return;
+            }
+            if (isNaN(marks)) { // Mark must be a number
+                alert("Marks must be a number.");
+                return;
+            }
+
+            let data = {
+                action: "edit", // Edit action
+                student_id: document.getElementById('student_id').value.trim(), // ID to edit
+                student_name: name, // Updated name
+                student_marks: marks // Updated marks
+            };
+            let response = await fetch("http://localhost/php/test3.php", { // Send edit request
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            let result = await response.text(); // Await response
+            alert(result); // Alert user
+            clearInputs(); // Clear input fields
+            clearDisplay(); // Clear display
+        }
+
+        // Delete student record via POST request
+        async function deleteRecord() {
+            if (!validateEditDelete()) return; // Validate ID input
+
+            let id = document.getElementById('student_id').value.trim(); // Get ID to delete
+
+            if (!confirm(`Are you sure you want to delete student with ID ${id}?`)) return; // Confirm deletion
+
+            let data = {
+                action: "delete", // Delete action
+                student_id: id // ID to delete
+            };
+            let response = await fetch("http://localhost/php/test3.php", { // Send delete request
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            let result = await response.text(); // Await result
+            alert(result); // Alert user
+            clearInputs(); // Clear inputs
+            clearDisplay(); // Clear display area
+        }
+
+        // Clear all input fields
+        function clearInputs() {
+            document.getElementById('student_id').value = "";
+            document.getElementById('student_name').value = "";
+            document.getElementById('student_marks').value = "";
+        }
+
+        // Clear display table area
+        function clearDisplay() {
+            document.getElementById("display_area").innerHTML = "";
+        }
+
+        // Attach event listeners to buttons for each action
+        document.getElementById('submit_button').addEventListener('click', insertData);
+        document.getElementById('display_button').addEventListener('click', getdata);
+        document.getElementById('edit_button').addEventListener('click', editData);
+        document.getElementById('delete_button').addEventListener('click', deleteRecord);
+
+        // No data displayed automatically on page load
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            text-align: center;
+            align-items: center;
+            background-color: #f1f1f1;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1> Movie List with Fetch API</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody id="tablebody">
+        </tbody>
+    </table>
+    <script>
+        async function FetchMovies() {
+            try {
+                const r = await fetch("./movies.json");
+                console.log("API  Status: ",r.status);
+
+                if (!r.ok) throw new Error("Network response was not ok");
+                const movies = await r.json();
+                console.log("Full API Object",movies);
+
+                let tablebody = document.getElementById("tablebody");
+                let data = "";
+
+                for (let i = 0; i < movies.length; i++) {
+                    const element = movies[i];
+                    data += `<tr>
+                        <td>${element.id}</td>
+                        <td>${element.name}</td>
+                        <td>${element.Year}</td>
+                        <td>${element.Rating}</td>
+                    </tr>`;
+                }
+                tablebody.innerHTML = data;
+            }
+             catch (err) 
+            {
+                console.error("Error fetching movies:", err);
+            }
+        }
+
+        FetchMovies();
+    </script>
+</body>
+</html>
